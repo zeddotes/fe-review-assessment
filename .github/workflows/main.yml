@@ -1,0 +1,30 @@
+name: Run CI tools
+
+on: push
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check Typescript
+        run: yarn tsc
+
+      # - name: Check Formatting // BONUS TASK
+      #   run: yarn prettier -c . // DON'T HAVE TO USE PRETTIER
+
+      # - name: Check Linting // BONUS TASK
+      #   run: yarn eslint --ignore-path .gitignore src // DON'T HAVE TO USE ESLINT
+
+      - name: Run Unit and Integration Tests
+        run: yarn test run
