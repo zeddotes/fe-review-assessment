@@ -1,4 +1,4 @@
-# Welcome to the VendorPM FE Technical Assessment
+# Technical Assessment
 
 ## Prerequisites
 
