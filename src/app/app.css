@@ -26,3 +26,12 @@
   height: 6em;
   padding: 1em 0;
 }
+
+.sorted-column {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sorted-column:hover {
+  cursor: pointer;
+}
