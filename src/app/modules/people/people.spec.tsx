@@ -44,6 +44,11 @@ describe("People", () => {
      * HINT: You need to alter the response from the api
      * You can do so for this test
      */
+    server.use(
+      rest.get(getPeople.info.path, (_, res, context) =>
+        res(context.status(200), context.json([]))
+      )
+    );
 
     await renderPeople();
 

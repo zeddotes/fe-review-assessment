@@ -28,6 +28,10 @@ export function People() {
     return <h2>Oops! looks like something went wrong!</h2>;
   }
 
+  if (!people.length) {
+    return <h2>No People Available.</h2>;
+  }
+
   return (
     <table>
       <thead>
