@@ -65,7 +65,7 @@ export function useEnhancedTable<T extends Record<string, any>>({
 
   const sortFn = useCallback(
     (data: T[]) => {
-      if (sortInfo === null) return data;
+      if (sortInfo === null) return [...data];
       const { order, column } = sortInfo;
       return data.sort((a: T, b: T) => {
         if (a[column] < b[column]) return order === "asc" ? -1 : 1;

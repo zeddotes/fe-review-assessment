@@ -1,6 +1,6 @@
 import { Person } from "./model";
 import { usePeopleQuery } from "./query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import EnhancedTablePagination from "../../shared/components/enhanced-table-pagination/enhanced-table-pagination.component";
 import EnhancedTableHeader from "../../shared/components/enhanced-table-header/enhanced-table-header.component";
 import {
@@ -10,6 +10,8 @@ import {
 import { useEnhancedTable } from "../../shared/hooks";
 import "./people.css";
 import EnhancedTableSearch from "../../shared/components/enhanced-table-search/enhanced-table-search.component";
+import EnhancedTableBody from "../../shared/components/enhanced-table-body/enhanced-table-body.component";
+import CreatePersonDialog from "../../shared/components/create-person/create-person-dialog.component";
 
 export function People() {
   const { data: people, loading, error } = usePeopleQuery();
@@ -19,6 +21,7 @@ export function People() {
     searchBy: "name",
   });
   const { setSortInfo, setSearch, search } = enhancedPeopleDataProps;
+  const addPersonModalRef = useRef<HTMLDialogElement | null>(null);
 
   useEffect(() => {
     setSortInfo({
@@ -36,7 +39,11 @@ export function People() {
       ) : (
         <EnhancedTableContext.Provider value={enhancedPeopleDataProps}>
           <div className="flex justify-content-between">
-            <EnhancedTableSearch />
+            <div className="flex gap-2 align-items-center">
+              <CreatePersonDialog />
+
+              <EnhancedTableSearch />
+            </div>
             <EnhancedTablePagination pageSizes={[10, 15, 20]} />
           </div>
           {!enhancedPeopleDataProps.data.length ? (
@@ -70,18 +77,14 @@ export function People() {
               </thead>
               <EnhancedTableBody
                 renderRow={(data) => {
-                  const { name, show, actor, movies, dob } = data as Person;
+                  const { name, show, actor, movies, dob, id } = data as Person;
                   return (
-                    <tr>
+                    <tr key={`person-${id}`}>
                       <td>{name}</td>
                       <td>{show}</td>
                       <td>{actor}</td>
                       <td>{dob}</td>
-                      <td
-                        dangerouslySetInnerHTML={{
-                          __html: movies.map(({ title }) => title).join(", "),
-                        }}
-                      ></td>
+                      <td>{movies.map(({ title }) => title).join(", ")}</td>
                     </tr>
                   );
                 }}
@@ -92,14 +95,4 @@ export function People() {
       )}
     </>
   );
-}
-
-interface EnhancedTableBodyProps<T> {
-  renderRow: (data: T) => JSX.Element;
-}
-
-function EnhancedTableBody<T>({ renderRow }: EnhancedTableBodyProps<T>) {
-  const { data } = useEnhancedTableContext<T>();
-
-  return <tbody>{(data as T[]).map((people) => renderRow(people))}</tbody>;
 }

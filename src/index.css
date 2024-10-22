@@ -53,6 +53,10 @@ body {
   gap: 10px;
 }
 
+.mr-1 {
+  margin-right: 5px;
+}
+
 .mb-2 {
   margin-bottom: 10px;
 }
@@ -65,10 +69,14 @@ body {
   padding: 5px;
 }
 
+select {
+  padding: 7px;
+}
+
 .button-secondary {
   background-color: #0e78ff;
   border-width: 0;
-  padding: 4px;
+  padding: 7px;
   color: #fff;
   border-radius: 2px;
 }
