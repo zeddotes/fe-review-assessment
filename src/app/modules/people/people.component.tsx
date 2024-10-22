@@ -159,6 +159,14 @@ function EnhancedTablePagination<T>({}: EnhancedTablePaginationProps<T>) {
       <button
         disabled={page === 0}
         onClick={() => {
+          setPage(0);
+        }}
+      >
+        First
+      </button>
+      <button
+        disabled={page === 0}
+        onClick={() => {
           setPage(page - 1);
         }}
       >
