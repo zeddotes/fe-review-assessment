@@ -9,21 +9,19 @@ import {
   useState,
 } from "react";
 
-interface UseEnhancedTableDataProps<T> {
+export interface UseEnhancedTableProps<T> {
   data: T[] | undefined;
   pageSize?: number;
   searchBy?: keyof T;
 }
 
-interface UseEnhancedTableDataContext<T> {
+export interface UseEnhancedTableReturn<T> {
   data: T[] | undefined;
   page: number;
-  setPage: Dispatch<
-    React.SetStateAction<UseEnhancedTableDataContext<T>["page"]>
-  >;
+  setPage: Dispatch<React.SetStateAction<UseEnhancedTableReturn<T>["page"]>>;
   pageSize: number;
   setPageSize: Dispatch<
-    React.SetStateAction<UseEnhancedTableDataContext<T>["pageSize"]>
+    React.SetStateAction<UseEnhancedTableReturn<T>["pageSize"]>
   >;
   rowCount: number | undefined;
   sortInfo: {
@@ -31,19 +29,19 @@ interface UseEnhancedTableDataContext<T> {
     column: keyof T;
   } | null;
   setSortInfo: Dispatch<
-    React.SetStateAction<UseEnhancedTableDataContext<T>["sortInfo"]>
+    React.SetStateAction<UseEnhancedTableReturn<T>["sortInfo"]>
   >;
   search: string;
   setSearch: Dispatch<
-    React.SetStateAction<UseEnhancedTableDataContext<T>["search"]>
+    React.SetStateAction<UseEnhancedTableReturn<T>["search"]>
   >;
 }
 
-export function useEnhancedTableData<T extends Record<string, any>>({
+export function useEnhancedTable<T extends Record<string, any>>({
   data: initialData,
   searchBy,
   pageSize: initialPageSize,
-}: UseEnhancedTableDataProps<T>): UseEnhancedTableDataContext<T> {
+}: UseEnhancedTableProps<T>): UseEnhancedTableReturn<T> {
   const [pageSize, setPageSize] = useState(initialPageSize ?? 10);
   const [page, setPage] = useState(0);
   const [rowCount, setRowCount] = useState<number | undefined>();
@@ -114,21 +112,3 @@ export function useEnhancedTableData<T extends Record<string, any>>({
     setPage,
   };
 }
-
-export const EnhancedTableContext = createContext<
-  UseEnhancedTableDataContext<any> | undefined
->(undefined);
-EnhancedTableContext.displayName = "EnhancedTableContext";
-
-export const useEnhancedTableContext = <T>() => {
-  const context = useContext(
-    EnhancedTableContext
-  ) as UseEnhancedTableDataContext<T>;
-  if (context === undefined) {
-    throw new Error(
-      "useEnhancedTableContext must be used within a EnhancedTableContext"
-    );
-  }
-
-  return context;
-};

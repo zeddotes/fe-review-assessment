@@ -1,0 +1,8 @@
+.sortable-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sortable-header:hover {
+  cursor: pointer;
+}
