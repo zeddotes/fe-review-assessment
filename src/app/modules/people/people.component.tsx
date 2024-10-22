@@ -1,17 +1,14 @@
-import { Person } from "./model";
-import { usePeopleQuery } from "./query";
-import { useEffect, useRef } from "react";
-import EnhancedTablePagination from "../../shared/components/enhanced-table-pagination/enhanced-table-pagination.component";
-import EnhancedTableHeader from "../../shared/components/enhanced-table-header/enhanced-table-header.component";
-import {
-  EnhancedTableContext,
-  useEnhancedTableContext,
-} from "../../shared/context/enhanced-table.context";
-import { useEnhancedTable } from "../../shared/hooks";
-import "./people.css";
-import EnhancedTableSearch from "../../shared/components/enhanced-table-search/enhanced-table-search.component";
-import EnhancedTableBody from "../../shared/components/enhanced-table-body/enhanced-table-body.component";
+import { useEffect } from "react";
 import CreatePersonDialog from "../../shared/components/create-person/create-person-dialog.component";
+import EnhancedTableBody from "../../shared/components/enhanced-table-body/enhanced-table-body.component";
+import EnhancedTableHeader from "../../shared/components/enhanced-table-header/enhanced-table-header.component";
+import EnhancedTablePagination from "../../shared/components/enhanced-table-pagination/enhanced-table-pagination.component";
+import EnhancedTableSearch from "../../shared/components/enhanced-table-search/enhanced-table-search.component";
+import { EnhancedTableContext } from "../../shared/context/enhanced-table.context";
+import { useEnhancedTable } from "../../shared/hooks";
+import { Person } from "./model";
+import "./people.css";
+import { usePeopleQuery } from "./query";
 
 export function People() {
   const { data: people, loading, error } = usePeopleQuery();
@@ -20,8 +17,7 @@ export function People() {
     pageSize: 10,
     searchBy: "name",
   });
-  const { setSortInfo, setSearch, search } = enhancedPeopleDataProps;
-  const addPersonModalRef = useRef<HTMLDialogElement | null>(null);
+  const { setSortInfo } = enhancedPeopleDataProps;
 
   useEffect(() => {
     setSortInfo({
@@ -41,7 +37,6 @@ export function People() {
           <div className="flex justify-content-between">
             <div className="flex gap-2 align-items-center">
               <CreatePersonDialog />
-
               <EnhancedTableSearch />
             </div>
             <EnhancedTablePagination pageSizes={[10, 15, 20]} />
