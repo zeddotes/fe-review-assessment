@@ -1,7 +1,7 @@
 import { useEnhancedTableContext } from "../../context/enhanced-table.context";
 
 export default function EnhancedTableSearch() {
-  const { search, setSearch } = useEnhancedTableContext();
+  const { search, setSearch, setPage, page } = useEnhancedTableContext();
   return (
     <input
       type="text"
@@ -11,6 +11,7 @@ export default function EnhancedTableSearch() {
       className="h-fit p-1"
       onChange={(e) => {
         setSearch(e.target.value.trim());
+        if (page !== 0) setPage(0);
       }}
     />
   );
